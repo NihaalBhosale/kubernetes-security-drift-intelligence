@@ -1,0 +1,31 @@
+rules:
+
+  - id: PRIVILEGED_CONTAINER
+    description: Privileged container enabled
+    resource_kind: Pod
+    field: privileged
+    old_value: false
+    new_value: true
+    impact: 30
+
+  - id: ROOT_CONTAINER
+    description: Container running as root
+    resource_kind: Pod
+    field: run_as_root
+    old_value: false
+    new_value: true
+    impact: 20
+
+  - id: NETWORK_POLICY_REMOVED
+    description: NetworkPolicy removed
+    resource_kind: NetworkPolicy
+    field: __resource__
+    change_type: removed
+    impact: 25
+
+  - id: SERVICE_LOADBALANCER
+    description: Service exposed through LoadBalancer
+    resource_kind: Service
+    field: type
+    new_value: LoadBalancer
+    impact: 20

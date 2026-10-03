@@ -1,0 +1,183 @@
+{
+  "timestamp": "2026-09-21T15:28:24.466024",
+  "configuration_hash": "395275bbded4af1b0fe651318f35f77ce8d0ad09b2317e0d7c8a6cc81f226a6f",
+  "resources": [
+    {
+      "kind": "NetworkPolicy",
+      "name": "demo-policy",
+      "namespace": "security-demo",
+      "data": {
+        "pod_selector": {
+          "app": "demo"
+        },
+        "policy_types": [
+          "Ingress"
+        ]
+      }
+    },
+    {
+      "kind": "Pod",
+      "name": "coredns-589f44dc88-8nzsh",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "k8s-app": "kube-dns",
+          "pod-template-hash": "589f44dc88"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "coredns-589f44dc88-nblr4",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "k8s-app": "kube-dns",
+          "pod-template-hash": "589f44dc88"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "etcd-desktop-control-plane",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "component": "etcd",
+          "tier": "control-plane"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "kindnet-28gbr",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "app": "kindnet",
+          "controller-revision-hash": "5db9b784b5",
+          "k8s-app": "kindnet",
+          "pod-template-generation": "1",
+          "tier": "node"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "kube-apiserver-desktop-control-plane",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "component": "kube-apiserver",
+          "tier": "control-plane"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "kube-controller-manager-desktop-control-plane",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "component": "kube-controller-manager",
+          "tier": "control-plane"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "kube-proxy-7m8px",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "controller-revision-hash": "88bb97857",
+          "k8s-app": "kube-proxy",
+          "pod-template-generation": "1"
+        }
+      },
+      "privileged": true,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "kube-scheduler-desktop-control-plane",
+      "namespace": "kube-system",
+      "data": {
+        "labels": {
+          "component": "kube-scheduler",
+          "tier": "control-plane"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "local-path-provisioner-855c7b7774-qqspm",
+      "namespace": "local-path-storage",
+      "data": {
+        "labels": {
+          "app": "local-path-provisioner",
+          "pod-template-hash": "855c7b7774"
+        }
+      },
+      "privileged": false,
+      "run_as_root": false
+    },
+    {
+      "kind": "Pod",
+      "name": "demo-pod",
+      "namespace": "security-demo",
+      "data": {
+        "labels": {
+          "app": "demo"
+        }
+      },
+      "privileged": true,
+      "run_as_root": false
+    },
+    {
+      "kind": "Service",
+      "name": "kubernetes",
+      "namespace": "default",
+      "data": {
+        "type": "ClusterIP",
+        "selector": {}
+      }
+    },
+    {
+      "kind": "Service",
+      "name": "kube-dns",
+      "namespace": "kube-system",
+      "data": {
+        "type": "ClusterIP",
+        "selector": {
+          "k8s-app": "kube-dns"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "name": "demo-service",
+      "namespace": "security-demo",
+      "data": {
+        "type": "ClusterIP",
+        "selector": {
+          "app": "demo"
+        }
+      }
+    }
+  ]
+}
