@@ -1,0 +1,48 @@
+# docker compose run --rm <service>
+services:
+  demo:            # original static pipeline
+    build: .
+    command: python -m app.main
+  dynamic:         # proposed dynamic engine on snapshots/baseline.json -> current.json (uses the trained models/dynamic_bundle.pkl)
+    build: .
+    command: python -m experiments.case_study
+    volumes: ["./results:/app/results"]
+  tests:
+    build: .
+    command: python -m unittest discover -s tests -v
+  dashboard:       # Streamlit UI -> http://localhost:8501
+    build: .
+    command: streamlit run app/dashboard.py --server.address=0.0.0.0
+    ports: ["8501:8501"]
+  experiments:     # rebuild datasets + retrain + all result tables (long: ~30-60 min)
+    build: .
+    command: >
+      sh -c "python -m experiments.build_dataset --split train --clusters 720 --episodes 6 --max-pods 300 --seed 101 &&
+             python -m experiments.build_dataset --split val --clusters 150 --episodes 6 --seed 202 &&
+             python -m experiments.build_dataset --split test --clusters 252 --episodes 6 --seed 303 &&
+             python -m experiments.build_dataset --split test_large --clusters 96 --episodes 4 --min-pods 400 --max-pods 1500 --seed 404 &&
+             python -m experiments.build_real_dataset --clusters 150 --episodes 4 --split real &&
+             python -m experiments.run_all && python -m experiments.case_study"
+    volumes: ["./results:/app/results", "./models:/app/models"]
+  realcharts:      # the papers' Helm charts: render -> build by-chart train/val/test -> train + evaluate on REAL charts only
+    build: .
+    command: >
+      sh -c "bash experiments/fetch_helm_charts.sh 60 &&
+             python -m experiments.scan_images --workers 4 &&
+             python -m experiments.build_real_dataset --part train --clusters 700 --episodes 6 --split real_train --seed 1 &&
+             python -m experiments.build_real_dataset --part val --clusters 150 --episodes 6 --split real_val --seed 2 &&
+             python -m experiments.build_real_dataset --part test --clusters 250 --episodes 6 --split real_test --seed 3 &&
+             python -m experiments.run_all --real-only"
+    volumes: ["./results:/app/results", "./models:/app/models", "./data:/app/data", "./trivy-cache:/root/.cache/trivy"]
+  scan:            # only the Trivy step (resumable; rerun if interrupted). Cache: data/real/vuln_counts.json
+    build: .
+    command: python -m experiments.scan_images --workers 4
+    volumes: ["./data:/app/data", "./trivy-cache:/root/.cache/trivy"]
+  realtrain:       # re-run only dataset building + training on the already fetched/scanned charts (no download, no scan)
+    build: .
+    command: >
+      sh -c "python -m experiments.build_real_dataset --part train --clusters 700 --episodes 6 --split real_train --seed 1 &&
+             python -m experiments.build_real_dataset --part val --clusters 150 --episodes 6 --split real_val --seed 2 &&
+             python -m experiments.build_real_dataset --part test --clusters 250 --episodes 6 --split real_test --seed 3 &&
+             python -m experiments.run_all --real-only"
+    volumes: ["./results:/app/results", "./models:/app/models", "./data:/app/data"]

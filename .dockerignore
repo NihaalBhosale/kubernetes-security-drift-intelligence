@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.pyc
+dist
+logs
+data/real/src_*
+.git

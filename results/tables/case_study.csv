@@ -1,0 +1,5 @@
+method,alert,score,detail
+Existing: static rules,False,0.0,
+Existing: Paper-1 graph delta (sum),,0.0,
+Existing: Paper-2 rules,False,0.0,
+Proposed: dynamic engine,False,0.00051186546334697,"est. damage increase 0.04 node-eq, severity None, 51 active rules"

@@ -1,2 +1,9 @@
 kubernetes==36.0.3
 PyYAML==6.0.3
+networkx>=3.2,<4.0
+streamlit>=1.38,<2.0
+pandas>=2.0,<3.0
+matplotlib>=3.8,<4.0
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4

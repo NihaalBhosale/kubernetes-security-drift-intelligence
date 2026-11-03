@@ -1,0 +1,580 @@
+rules:
+- id: R_PRIVILEGED
+  description: Privileged container
+  template: R_PRIVILEGED
+  tactic: Privilege Escalation
+  source: beta3 (100)
+  active: true
+  weight_introduced: 0.1471
+  weight_removed: -1.1182
+  prior_w0: 1.0
+  support: 0
+- id: R_ROOT
+  description: Container can run as root
+  template: R_ROOT
+  tactic: Execution
+  source: beta2 (100)
+  active: true
+  weight_introduced: 0.5383
+  weight_removed: 0.1647
+  prior_w0: 1.0
+  support: 0
+- id: R_PRIVESC
+  description: allowPrivilegeEscalation enabled
+  template: R_PRIVESC
+  tactic: Privilege Escalation
+  source: beta3 (100)
+  active: true
+  weight_introduced: 0.3934
+  weight_removed: 0.4314
+  prior_w0: 1.0
+  support: 0
+- id: R_CAPS
+  description: Dangerous Linux capabilities added
+  template: R_CAPS
+  tactic: Privilege Escalation
+  source: alpha2 (5/cap)
+  active: false
+  weight_introduced: -0.248
+  weight_removed: -0.1709
+  prior_w0: 0.05
+  support: 0
+- id: R_HOSTNET
+  description: Pod uses the host network (bypasses NetworkPolicy)
+  template: R_HOSTNET
+  tactic: Lateral Movement
+  source: beta6 (100) / M7
+  active: true
+  weight_introduced: 0.4435
+  weight_removed: 0.5447
+  prior_w0: 1.0
+  support: 0
+- id: R_HOSTPID
+  description: Pod shares the host PID namespace
+  template: R_HOSTPID
+  tactic: Privilege Escalation
+  source: prior
+  active: true
+  weight_introduced: 0.3778
+  weight_removed: 0.213
+  prior_w0: 0.6
+  support: 0
+- id: R_HOSTIPC
+  description: Pod shares the host IPC namespace
+  template: R_HOSTIPC
+  tactic: Privilege Escalation
+  source: prior
+  active: true
+  weight_introduced: 0.2683
+  weight_removed: -0.0423
+  prior_w0: 0.4
+  support: 0
+- id: R_HOSTPATH
+  description: hostPath volume mounted
+  template: R_HOSTPATH
+  tactic: Lateral Movement
+  source: beta7 (100)
+  active: true
+  weight_introduced: 0.5139
+  weight_removed: -0.5572
+  prior_w0: 1.0
+  support: 0
+- id: R_HOSTPATH_SENSITIVE
+  description: Sensitive hostPath (docker.sock, /etc, /proc ...)
+  template: R_HOSTPATH_SENSITIVE
+  tactic: Privilege Escalation
+  source: beta7 (100)
+  active: false
+  weight_introduced: -0.0506
+  weight_removed: -0.3117
+  prior_w0: 1.0
+  support: 0
+- id: R_VOL_SECRET
+  description: Secret volume mounted into pod
+  template: R_VOL_SECRET
+  tactic: Credential Access
+  source: beta8 (10/vol)
+  active: false
+  weight_introduced: -0.0642
+  weight_removed: -0.4801
+  prior_w0: 0.1
+  support: 0
+- id: R_SVC_LB
+  description: Pod exposed through a LoadBalancer
+  template: R_SVC_LB
+  tactic: Initial Access
+  source: beta1 (100)
+  active: true
+  weight_introduced: 0.4504
+  weight_removed: 0.7352
+  prior_w0: 1.0
+  support: 0
+- id: R_SVC_NODEPORT
+  description: Pod exposed through a NodePort
+  template: R_SVC_NODEPORT
+  tactic: Initial Access
+  source: beta1 (100)
+  active: true
+  weight_introduced: 1.2649
+  weight_removed: 0.2467
+  prior_w0: 1.0
+  support: 0
+- id: R_INGRESS
+  description: Pod exposed through an Ingress
+  template: R_INGRESS
+  tactic: Initial Access
+  source: beta1 (100)
+  active: true
+  weight_introduced: -0.4134
+  weight_removed: 0.5051
+  prior_w0: 1.0
+  support: 0
+- id: R_VULN
+  description: High/critical image vulnerabilities above dynamic threshold
+  template: R_VULN
+  tactic: Initial Access
+  source: alpha1 (1/vuln)
+  active: true
+  weight_introduced: -0.0977
+  weight_removed: 0.1946
+  prior_w0: 0.01
+  support: 0
+  params:
+    vuln_thr: 10.0
+- id: R_IMAGE_OPAQUE
+  description: Image cannot be scanned (opaque)
+  template: R_IMAGE_OPAQUE
+  tactic: Initial Access
+  source: prior
+  active: true
+  weight_introduced: 0.0714
+  weight_removed: 0.5596
+  prior_w0: 0.5
+  support: 0
+- id: R_IMAGE_LATEST
+  description: Mutable ':latest' image tag
+  template: R_IMAGE_LATEST
+  tactic: Initial Access
+  source: prior
+  active: false
+  weight_introduced: -0.12
+  weight_removed: -0.1158
+  prior_w0: 0.2
+  support: 0
+- id: R_SA_SECRETS
+  description: Pod's service account can read secrets
+  template: R_SA_SECRETS
+  tactic: Credential Access
+  source: beta4 (10/perm)
+  active: true
+  weight_introduced: -0.3319
+  weight_removed: 0.2395
+  prior_w0: 0.1
+  support: 0
+- id: R_SA_CREATE_PODS
+  description: Pod's service account can create pods
+  template: R_SA_CREATE_PODS
+  tactic: Impact
+  source: beta4 (10/perm)
+  active: false
+  weight_introduced: -0.4356
+  weight_removed: -0.0269
+  prior_w0: 0.1
+  support: 0
+- id: R_SA_EXEC
+  description: Pod's service account can exec into pods
+  template: R_SA_EXEC
+  tactic: Lateral Movement
+  source: beta5 (100) / gamma3
+  active: true
+  weight_introduced: 1.1065
+  weight_removed: 0.5302
+  prior_w0: 1.0
+  support: 0
+- id: R_SA_IMPERSONATE
+  description: Service account can impersonate / escalate / bind
+  template: R_SA_IMPERSONATE
+  tactic: Privilege Escalation
+  source: beta4 (10/perm)
+  active: true
+  weight_introduced: -0.2516
+  weight_removed: 0.6418
+  prior_w0: 0.1
+  support: 0
+- id: R_SA_WILDCARD
+  description: Service account bound to wildcard permissions
+  template: R_SA_WILDCARD
+  tactic: Privilege Escalation
+  source: beta4 (10/perm)
+  active: true
+  weight_introduced: -0.1085
+  weight_removed: 0.3945
+  prior_w0: 0.5
+  support: 0
+- id: R_SA_LIST_PODS
+  description: Service account can list pods
+  template: R_SA_LIST_PODS
+  tactic: Discovery
+  source: beta4 (10/perm)
+  active: true
+  weight_introduced: -0.2516
+  weight_removed: 0.2514
+  prior_w0: 0.1
+  support: 0
+- id: R_TOKEN_MOUNT
+  description: Service-account token auto-mounted
+  template: R_TOKEN_MOUNT
+  tactic: Credential Access
+  source: prior
+  active: true
+  weight_introduced: 0.0989
+  weight_removed: -0.2973
+  prior_w0: 0.05
+  support: 2
+- id: R_NP_NONE
+  description: Pod not selected by any ingress NetworkPolicy
+  template: R_NP_NONE
+  tactic: Lateral Movement
+  source: gamma1 (0.8)
+  active: true
+  weight_introduced: -0.0602
+  weight_removed: 0.5666
+  prior_w0: 0.8
+  support: 0
+- id: R_NP_ALLOW_ALL
+  description: NetworkPolicy that allows all ingress (ineffective)
+  template: R_NP_ALLOW_ALL
+  tactic: Lateral Movement
+  source: gamma1 (0.8)
+  active: true
+  weight_introduced: 0.427
+  weight_removed: 0.5909
+  prior_w0: 0.8
+  support: 0
+- id: R_NP_ORPHAN
+  description: NetworkPolicy selecting no pod (silently ineffective)
+  template: R_NP_ORPHAN
+  tactic: Lateral Movement
+  source: gamma1 (0.8)
+  active: true
+  weight_introduced: 0.4679
+  weight_removed: 0.1789
+  prior_w0: 0.5
+  support: 0
+- id: R_AFFINITY
+  description: Pod affinity co-locates pods on one node
+  template: R_AFFINITY
+  tactic: Lateral Movement
+  source: gamma2 (0.4)
+  active: true
+  weight_introduced: 0.4897
+  weight_removed: 0.3071
+  prior_w0: 0.4
+  support: 0
+- id: R_NO_LIMITS
+  description: No resource limits (cryptojacking / EDoS)
+  template: R_NO_LIMITS
+  tactic: Impact
+  source: prior
+  active: true
+  weight_introduced: -0.2339
+  weight_removed: 0.3056
+  prior_w0: 0.2
+  support: 0
+- id: R_RW_ROOTFS
+  description: Writable root filesystem
+  template: R_RW_ROOTFS
+  tactic: Persistence
+  source: prior
+  active: true
+  weight_introduced: -0.0981
+  weight_removed: -0.1069
+  prior_w0: 0.1
+  support: 2
+- id: R_CAPS_DEFAULT
+  description: Default Linux capabilities not dropped
+  template: R_CAPS_DEFAULT
+  tactic: Privilege Escalation
+  source: alpha2 (5/cap)
+  active: true
+  weight_introduced: 0.7191
+  weight_removed: -0.2876
+  prior_w0: 0.05
+  support: 2
+- id: R_SYSTEM_NS_OPEN
+  description: kube-system pod reachable without NetworkPolicy
+  template: R_SYSTEM_NS_OPEN
+  tactic: Lateral Movement
+  source: prior
+  active: true
+  weight_introduced: 0.1789
+  weight_removed: 0.1789
+  prior_w0: 0.5
+  support: 0
+- id: R_M1_UNDECLARED_PORT
+  description: Open port not declared in the manifest
+  template: R_M1_UNDECLARED_PORT
+  tactic: Discovery
+  source: M1
+  active: true
+  weight_introduced: 0.2081
+  weight_removed: -0.3227
+  prior_w0: 0.4
+  support: 0
+- id: R_M2_DYNAMIC_PORTS
+  description: Ephemeral (dynamic) ports in use
+  template: R_M2_DYNAMIC_PORTS
+  tactic: Lateral Movement
+  source: M2
+  active: true
+  weight_introduced: 0.036
+  weight_removed: 0.5725
+  prior_w0: 0.4
+  support: 0
+- id: R_M3_DECLARED_NOT_OPEN
+  description: Declared port is not open
+  template: R_M3_DECLARED_NOT_OPEN
+  tactic: Credential Access
+  source: M3
+  active: true
+  weight_introduced: 0.0316
+  weight_removed: -0.6161
+  prior_w0: 0.2
+  support: 0
+- id: R_M4A_UNIT_COLLISION
+  description: Different workloads share the same app label
+  template: R_M4A_UNIT_COLLISION
+  tactic: Credential Access
+  source: M4A
+  active: true
+  weight_introduced: 0.2547
+  weight_removed: -0.2039
+  prior_w0: 0.5
+  support: 0
+- id: R_M4B_SERVICE_COLLISION
+  description: Several services share one selector
+  template: R_M4B_SERVICE_COLLISION
+  tactic: Credential Access
+  source: M4B
+  active: true
+  weight_introduced: 0.1431
+  weight_removed: 0.1174
+  prior_w0: 0.4
+  support: 0
+- id: R_M4C_SUBSET_COLLISION
+  description: Service selects pods of unrelated workloads
+  template: R_M4C_SUBSET_COLLISION
+  tactic: Credential Access
+  source: M4C
+  active: true
+  weight_introduced: -0.1988
+  weight_removed: 0.0959
+  prior_w0: 0.4
+  support: 0
+- id: R_M4G_GLOBAL_COLLISION
+  description: App label reused across namespaces
+  template: R_M4G_GLOBAL_COLLISION
+  tactic: Credential Access
+  source: M4*
+  active: true
+  weight_introduced: 0.1073
+  weight_removed: 0.1073
+  prior_w0: 0.3
+  support: 0
+- id: R_M5A_SVC_UNOPENED
+  description: Service targets a declared but unopened port
+  template: R_M5A_SVC_UNOPENED
+  tactic: Impact
+  source: M5A
+  active: true
+  weight_introduced: 0.2324
+  weight_removed: 0.6907
+  prior_w0: 0.3
+  support: 0
+- id: R_M5B_SVC_UNDECLARED
+  description: Service targets an undeclared port
+  template: R_M5B_SVC_UNDECLARED
+  tactic: Defense Evasion
+  source: M5B
+  active: true
+  weight_introduced: 0.17
+  weight_removed: 0.1766
+  prior_w0: 0.3
+  support: 0
+- id: R_M5C_HEADLESS_MISMATCH
+  description: Headless service port not available
+  template: R_M5C_HEADLESS_MISMATCH
+  tactic: Impact
+  source: M5C
+  active: true
+  weight_introduced: 0.0716
+  weight_removed: 0.1664
+  prior_w0: 0.2
+  support: 0
+- id: R_M5D_SVC_NO_TARGET
+  description: Service without target pods
+  template: R_M5D_SVC_NO_TARGET
+  tactic: Credential Access
+  source: M5D
+  active: true
+  weight_introduced: 0.2812
+  weight_removed: 0.1073
+  prior_w0: 0.3
+  support: 0
+- id: R_M6_NS_NO_NETPOL
+  description: Namespace without any NetworkPolicy
+  template: R_M6_NS_NO_NETPOL
+  tactic: Lateral Movement
+  source: M6
+  active: true
+  weight_introduced: 0.0468
+  weight_removed: -0.5826
+  prior_w0: 0.8
+  support: 0
+- id: R_BIND_CLUSTER_ADMIN
+  description: Workload bound to cluster-admin
+  template: R_BIND_CLUSTER_ADMIN
+  tactic: Privilege Escalation
+  source: beta4 (10/perm)
+  active: true
+  weight_introduced: 0.5141
+  weight_removed: 0.3578
+  prior_w0: 1.0
+  support: 0
+- id: X_BIND_GROUP_BROADCAST
+  description: Powerful role bound to a group covering all service accounts
+  template: X_BIND_GROUP_BROADCAST
+  tactic: Privilege Escalation
+  source: new
+  active: true
+  weight_introduced: 1.6545
+  weight_removed: 0.2863
+  prior_w0: 0.8
+  support: 0
+- id: X_BIND_CROSS_NS
+  description: Powerful role granted to a service account of another namespace
+  template: X_BIND_CROSS_NS
+  tactic: Lateral Movement
+  source: new
+  active: true
+  weight_introduced: -0.1861
+  weight_removed: 0.1789
+  prior_w0: 0.5
+  support: 0
+- id: X_DEFAULT_SA_POWER
+  description: Default service account holds powerful permissions
+  template: X_DEFAULT_SA_POWER
+  tactic: Privilege Escalation
+  source: new
+  active: true
+  weight_introduced: 0.9306
+  weight_removed: 0.1789
+  prior_w0: 0.5
+  support: 0
+- id: X_NODE_BLAST_RADIUS
+  description: Host-escape-capable pod co-located with sensitive pods
+  template: X_NODE_BLAST_RADIUS
+  tactic: Lateral Movement
+  source: new
+  active: true
+  weight_introduced: 0.0087
+  weight_removed: 0.5032
+  prior_w0: 0.7
+  support: 0
+- id: X_NP_BYPASS_HOSTNET
+  description: Host-network pod nominally covered by a NetworkPolicy
+  template: X_NP_BYPASS_HOSTNET
+  tactic: Defense Evasion
+  source: new
+  active: true
+  weight_introduced: 0.17
+  weight_removed: 1.8033
+  prior_w0: 0.8
+  support: 0
+- id: X_CHAIN_TOKEN_OPEN
+  description: Mounted token + powerful permissions + no network isolation
+  template: X_CHAIN_TOKEN_OPEN
+  tactic: Credential Access
+  source: new
+  active: true
+  weight_introduced: 0.4443
+  weight_removed: 0.1617
+  prior_w0: 0.6
+  support: 0
+- id: X_CHAIN_EXPOSED_ROOT
+  description: Exposed vulnerable root pod with privilege escalation
+  template: X_CHAIN_EXPOSED_ROOT
+  tactic: Execution
+  source: new
+  active: true
+  weight_introduced: 1.0153
+  weight_removed: 0.0192
+  prior_w0: 0.6
+  support: 0
+  params:
+    vuln_thr: 10.0
+- id: X_CHAIN_EXPOSED_HOST
+  description: Exposed pod that can escape to the host
+  template: X_CHAIN_EXPOSED_HOST
+  tactic: Privilege Escalation
+  source: new
+  active: true
+  weight_introduced: 0.7335
+  weight_removed: 0.9315
+  prior_w0: 1.0
+  support: 0
+- id: X_NOLIMITS_EXPOSED
+  description: Exposed pod without resource limits
+  template: X_NOLIMITS_EXPOSED
+  tactic: Impact
+  source: new
+  active: true
+  weight_introduced: 0.3127
+  weight_removed: 0.6993
+  prior_w0: 0.3
+  support: 0
+- id: X_COLLISION_POWER
+  description: Label collision involving a pod with powerful permissions
+  template: X_COLLISION_POWER
+  tactic: Credential Access
+  source: new
+  active: true
+  weight_introduced: -0.1242
+  weight_removed: 0.8577
+  prior_w0: 0.5
+  support: 0
+generic_rules: []
+induced_rules:
+- if: ctx[X_CHAIN_TOKEN_OPEN] > 0.48 AND ctx[X_DEFAULT_SA_POWER] <= 0.48 AND theta::nolimits_rate
+    > 0.16 AND theta::sensitive_rate > 0.14 AND ctx[R_VULN] <= 0.01 AND theta::caps_rate
+    > 0.04
+  support: 20
+  precision: 0.7
+- if: ctx[X_CHAIN_TOKEN_OPEN] > 0.48 AND ctx[X_DEFAULT_SA_POWER] > 0.48 AND ctx[X_BIND_GROUP_BROADCAST]
+    > 0.11 AND NEW[R_SA_EXEC] <= 0.50
+  support: 19
+  precision: 0.8947368421052632
+alert_threshold: 0.25606710899037166
+active_parameters:
+- changed_rbac
+- sensitive_rate
+- vuln_p90
+- mean_reach
+- vuln_median
+- exposure_rate
+- powerful_sa_rate
+- privesc_rate
+- colocated_sensitive
+- ns_without_np
+- changed_pods
+- m1_rate
+- log_pods
+- log_namespaces
+- log_pods_per_node
+- service_ratio
+- high_reach_rate
+- base_risk_top5
+- p1_risk_top5
+- changed_resources
+- changed_services
+- added_resources

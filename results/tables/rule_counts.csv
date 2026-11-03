@@ -1,0 +1,9 @@
+item,count
+Existing static rules,5
+Template rules (paper1),31
+Template rules (paper2),12
+Template rules (extension),10
+Template rules (paper1+paper2),1
+Total template rules,54
+Induced compound rules (this run),2
+Environment parameters tracked,40

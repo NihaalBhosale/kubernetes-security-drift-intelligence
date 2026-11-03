@@ -1,0 +1,31 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Generated data
+data/alerts.json
+snapshots/current.json
+
+# Kubernetes credentials
+.kube/
+kubeconfig
+*.key
+*.pem
+
+# Python tools
+.pytest_cache/
+.mypy_cache/
+
+.pytest_cache/
+.mypy_cache/
+.kube/
+kubeconfig
+*.key
+*.pem

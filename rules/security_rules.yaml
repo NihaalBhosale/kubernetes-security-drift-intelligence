@@ -1,7 +1,6 @@
 rules:
-
   - id: PRIVILEGED_CONTAINER
-    description: Privileged container enabled
+    description: Container configuration changed to privileged mode
     resource_kind: Pod
     field: privileged
     old_value: false
@@ -9,7 +8,7 @@ rules:
     impact: 30
 
   - id: ROOT_CONTAINER
-    description: Container running as root
+    description: Container configuration changed to run as root
     resource_kind: Pod
     field: run_as_root
     old_value: false
@@ -17,15 +16,23 @@ rules:
     impact: 20
 
   - id: NETWORK_POLICY_REMOVED
-    description: NetworkPolicy removed
+    description: A NetworkPolicy was removed from the cluster
     resource_kind: NetworkPolicy
     field: __resource__
     change_type: removed
     impact: 25
 
   - id: SERVICE_LOADBALANCER
-    description: Service exposed through LoadBalancer
+    description: Service is configured as a LoadBalancer
     resource_kind: Service
     field: type
     new_value: LoadBalancer
     impact: 20
+
+  - id: HOST_NETWORK_ENABLED
+    description: Pod is configured to use the host network
+    resource_kind: Pod
+    field: host_network
+    old_value: false
+    new_value: true
+    impact: 25
